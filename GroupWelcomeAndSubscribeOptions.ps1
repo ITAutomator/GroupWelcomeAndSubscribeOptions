@@ -4,30 +4,7 @@
     then applies subscription changes to existing members to match the desired setting.
 
 .DESCRIPTION
-    1. Checks if Connect-ExchangeOnline command is available (i.e., ExchangeOnlineManagement module is installed).
-       If not, prints instructions, prompts to press a key, and exits.
-    2. Checks if you're connected to Exchange Online by calling Get-OrganizationConfig.
-       If it fails, prompts to press a key, then exits.
-       If successful, displays which tenant/domain you are connected to.
-    3. Prompts the user for a group name. If no name is entered, prompts to press a key, then exits.
-    4. Prompts the user whether new members should be auto-subscribed (True/False).
-       If invalid input, prompts to press a key, then exits.
-    5. Prompts the user whether welcome messages should be suppressed (True/False).
-       If invalid input, prompts to press a key, then exits.
-    6. Retrieves the group and compares current group settings to the desired settings.
-       If it fails to retrieve, prompts to press a key, then exits.
-    7. If needed, updates the group's AutoSubscribeNewMembers and WelcomeMessageEnabled properties.
-       If it fails, prompts to press a key, then exits.
-    8. Retrieves all existing members and all current subscribers for the group.
-       If it fails, prompts to press a key, then exits.
-    9. For each member, checks if they match the desired subscription state:
-       - If AutoSubscribeNewMembers = True, ensure the user is subscribed.
-       - If AutoSubscribeNewMembers = False, ensure the user is unsubscribed.
-    10. Outputs whether each user was already correct or if it’s being updated, and completes.
-
-.NOTES
-    - If your environment still uses -WelcomeEmailDisabled instead, replace or remove
-      the -WelcomeMessageEnabled part accordingly.
+    Set M365 Group Auto-Subscription & Welcome Email Options.  Updates users too.  Can be used to check settings
 #>
 ######################
 ## Main Procedure
@@ -59,7 +36,7 @@ $psm1="$($scriptDir)\ITAutomator.psm1";if ((Test-Path $psm1)) {Import-Module $ps
 Write-Host "-----------------------------------------------------------------------------"
 Write-Host "$($scriptName) $($scriptVer)       Computer:$($env:computername) User:$($env:username) PSver:$($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor)"
 Write-Host ""
-Write-Host " Set M365 Group Auto-Subscription & Welcome Email."
+Write-Host " Set M365 Group Auto-Subscription & Welcome Email Options.  Updates users too.  Can be used to check settings."
 Write-Host ""
 Write-Host " M365 Groups are  here: https://admin.microsoft.com/#/groups/_/UnifiedGroup"
 Write-host "             (dynamic): https://admin.microsoft.com/#/groups/_/UnifiedGroup/DynamicMembership"
@@ -106,7 +83,7 @@ while ($true) {
         Write-Host "Press any key to continue..."
         $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
         Write-Host "Connect-ExchangeOnline ... " -ForegroundColor Yellow
-        Connect-ExchangeOnline -UseWebLogin -ShowBanner:$false
+        Connect-ExchangeOnline -ShowBanner:$false
         Write-Host "Done" -ForegroundColor Yellow
         Continue # loop again
     }

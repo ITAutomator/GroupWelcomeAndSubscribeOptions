@@ -1,0 +1,72 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20250301145537
+Username: AzureAD\JasonSimotas
+RunAs User: AzureAD\JasonSimotas
+Configuration Name: 
+Machine: LP-JS (Microsoft Windows NT 10.0.26100.0)
+Host Application: powershell.exe -NoProfile -ExecutionPolicy Bypass -Command write-host [Starting PS1 called from CMD] -Foregroundcolor green;& 'C:\Users\JasonSimotas\Rethinkit\Staff - General\Programming.M365\GroupWelcomeAndSubscribeOptions\GroupWelcomeAndSubscribeOptions.ps1' 
+Process ID: 1144
+PSVersion: 5.1.26100.2161
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.2161
+BuildVersion: 10.0.26100.2161
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+-----------------------------------------------------------------------------
+GroupWelcomeAndSubscribeOptions.ps1 v2025-03-01       Computer:LP-JS User:JasonSimotas PSver:5.1
+
+ Set M365 Group Auto-Subscription & Welcome Email.
+
+ M365 Groups are  here: https://admin.microsoft.com/#/groups/_/UnifiedGroup
+             (dynamic): https://admin.microsoft.com/#/groups/_/UnifiedGroup/DynamicMembership
+-----------------------------------------------------------------------------
+ERROR: Not connected to Exchange Online or invalid session.
+We will try 'Connect-ExchangeOnline' to authenticate. Before we do, open a browser to an admin session on the desired tenant.
+Press any key to continue...
+Connect-ExchangeOnline ...
+Done
+You are currently connected to tenant:
+rethinkit365.onmicrosoft.com
+
+                                      Group settings:
+All Simotas
+ (The recommended settings are True for both)
+  Suppress welcome messages (!WelcomeMessageEnabled):
+True
+                            Subscribe future members:
+True
+Group setting already OK.
+Group setting already OK.
+---------------------------------------------------------------------------------------------------------------
+Subscribe existing members
+This next setting adjusts how users have already elected to be subsribed (true) or not subscribed (false)
+True means they will get a copy of group messages in their personal Inbox
+False means they won't (the group collects the mail regardless - This is the default)
+Caution: This will overwrite user selections (Use Dont adjust to check current selections)
+---------------------------------------------------------------------------------------------------------------
+Retrieving [allsimotas] existing members and subscribers ...
+  [allsimotas] members :
+2
+  [allsimotas] subscribers :
+2
+Checking each member subscribed status ...
+  [1 of 2] Jason Simotas
+OK: IsSubscribed already
+  [2 of 2] Caryn Levitt
+OK: IsSubscribed already
+Done with [allsimotas]. Changes made in this group:
+0
+-----------------------------------------------------------------------------
+Done. Changes made in all groups:
+0
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+No group name entered. Exiting script.
+**********************
+Windows PowerShell transcript end
+End time: 20250301145648
+**********************

@@ -109,14 +109,15 @@ Function ModuleAction ($module="<none>",$action="update")
         } # each module that needs an update
         if ($action -in "install","reinstall")
         { # install reinstall
-            Write-Host "Installing $($fm.version)"
+            $reqver = PromptForString -Prompt "Version:" $fm.Version
+            Write-Host "Installing $($reqver)"
             if ($IsAdmin) {
-                Write-Host "Install-Module -Name $module -Scope AllUsers" -ForegroundColor Yellow
-                Install-Module -Name $module -Scope AllUsers -Force
+                Write-Host "Install-Module -Name $module -Scope AllUsers -RequiredVersion $reqver" -ForegroundColor Yellow
+                Install-Module -Name $module -Scope AllUsers -RequiredVersion $reqver -Force
             } # install as admin
             Else {
-                Write-Host "Install-Module -Name $module" -ForegroundColor Yellow
-                Install-Module -Name $module -Force
+                Write-Host "Install-Module -Name $module -RequiredVersion $reqver" -ForegroundColor Yellow
+                Install-Module -Name $module -RequiredVersion $reqver -Force
             } # install as user
             Write-host "Finished installing." -ForegroundColor Green
             PressEnterToContinue

@@ -43,6 +43,8 @@ Write-host "             (dynamic): https://admin.microsoft.com/#/groups/_/Unifi
 Write-Host "-----------------------------------------------------------------------------"
 PressEnterToContinue
 
+
+#region Connect-ExchangeOnline
 # Check if Connect-ExchangeOnline is available
 if (-not (Get-Command Connect-ExchangeOnline -ErrorAction SilentlyContinue)) {
     Write-Host "ERROR: 'Connect-ExchangeOnline' command was not found."
@@ -50,11 +52,10 @@ if (-not (Get-Command Connect-ExchangeOnline -ErrorAction SilentlyContinue)) {
     Write-Host "   Install-Module ExchangeOnlineManagement"
     Write-Host "Or load the module if it is already installed, then try again."
     Write-Host "Press any key to exit..."
-    $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-    return
+    PressEnterToContinue
+    exit
 }
-
-# Check if we are already connected to Exchange Online
+# Check if we are already connected
 while ($true) {
     try {
         $orgConfig = Get-OrganizationConfig -ErrorAction Stop
@@ -76,7 +77,7 @@ while ($true) {
         else { # on to next step
             break
         }
-    }
+    } # try steps
     catch {
         Write-Host "ERROR: Not connected to Exchange Online or invalid session."
         Write-Host "We will try 'Connect-ExchangeOnline' to authenticate. Before we do, open a browser to an admin session on the desired tenant."
@@ -86,22 +87,29 @@ while ($true) {
         Connect-ExchangeOnline -ShowBanner:$false
         Write-Host "Done" -ForegroundColor Yellow
         Continue # loop again
-    }
-}
+    } # catch error
+} # while true forever loop
 Write-Host
+#endregion Connect-ExchangeOnline
 
 while ($true)
 {
     # Prompt for group name
-    $groupNames_str = Read-Host "Enter the M365 Group name or email address, separate multiple groups with commas to loop (blank to exit)"
+    $groupNames_str = Read-Host "Enter the M365 Group name or email address, separate multiple groups with commas to loop, ALL to loop through all groups (blank to exit)"
     if ([string]::IsNullOrWhiteSpace($groupNames_str)) {
         Write-Host "No group name entered. Exiting script."
         Start-Sleep 2
         Break
     }
+    $groupNames = @()
+    if ($groupNames_str -eq "ALL"){
+        $groupNames += (Get-UnifiedGroup).DisplayName | Sort-Object
+    } # all groups
+    else {
+        $groupNames += $groupNames_str.Split(",")
+    } # named groups
     # Loop through multiple groups separated by commas
     $changes_made_total = 0
-    $groupNames = @($groupNames_str.Split(","))
     ForEach ($groupName in $groupNames)
     {
         $groupName = $groupName.Trim()
